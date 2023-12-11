@@ -2,7 +2,7 @@
 
 #### Base URL
 ```
-POST BASE_URL/api
+POST https://asia-south1-esgedu-740d2.cloudfunctions.net/analytics-api
 ```
 
 #### Headers
@@ -11,7 +11,7 @@ POST BASE_URL/api
 
 ##### 1. Per Page Views
 ```
-POST /api?type=per-page-views
+POST https://asia-south1-esgedu-740d2.cloudfunctions.net/analytics-api?type=per-page-views
 ```
 
 **Request:**
@@ -40,7 +40,7 @@ POST /api?type=per-page-views
 
 ##### 2. Views by City and Page
 ```
-POST /api?type=views-by-city-and-page
+POST https://asia-south1-esgedu-740d2.cloudfunctions.net/analytics-api?type=views-by-city-and-page
 ```
 
 **Request:**
@@ -70,7 +70,7 @@ POST /api?type=views-by-city-and-page
 
 ##### 3. Views by Day
 ```
-POST /api?type=views-by-day
+POST https://asia-south1-esgedu-740d2.cloudfunctions.net/analytics-api?type=views-by-day
 ```
 
 **Request:**
@@ -135,7 +135,7 @@ POST /api?type=views-by-day
 ```python
 import requests
 
-url = 'http://localhost:5000/api?type=per-page-views'
+url = 'POST https://asia-south1-esgedu-740d2.cloudfunctions.net/analytics-api?type=per-page-views'
 headers = {'apiKey': 'your_api_key'}
 
 response = requests.post(url, headers=headers)
@@ -144,4 +144,4 @@ print(response.status_code)
 print(response.json())
 ```
 
-Remember to replace `'your_api_key'` with your actual API key. This documentation assumes that the API is running locally on port 5000. Adjust the URL accordingly if it's hosted elsewhere.
+Remember to replace `'your_api_key'` with your actual API key. 
