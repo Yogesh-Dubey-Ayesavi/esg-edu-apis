@@ -1,0 +1,194 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+      "title": "EsgEdu APIS --Version 1.0.1",
+      "version": "1.0.1",
+      "description":"ESGEDU Swagger API provides a robust set of endpoints for analytics, offering detailed insights into data metrics. Additionally, it includes Git APIs for seamless version control integration, enabling efficient collaboration and tracking of changes in your projects. \n For more details [check out](https://docs.esg.edu.ayesavi.in/esg-edu-apis)"
+    },
+    "contact":{
+        "email":"team.ayesavi@gmail.com"
+    },
+    "tags": [
+      { "name": "Analytics API", "description": "API for analytics" 
+    ,
+      "externalDocs":{
+      "description":" Find out more",
+      "url": "https://ayesavi.in"}
+    
+    },
+      { "name": "Git API", "description": "API for interaction with git resources",   "externalDocs":{
+        "description":" Find out more",
+        "url": "https://ayesavi.in"} }
+    ],
+    "servers": [
+      { "url": "https://asia-south1-esgedu-740d2.cloudfunctions.net" }
+    ],
+    "components": {
+      "schemas": {
+        "ViewsByCityAndPage":{
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "city_name": {
+                  "type": "string"
+                },
+                "page_name": {
+                  "type": "string"
+                },
+                "views": {
+                  "type": "string"
+                }
+              },
+              "required": ["city_name", "page_name", "views"]
+            }
+          },
+        "ViewsPerPage": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "page_name": { "type": "string" },
+              "views": { "type": "string" }
+            },
+            "required": ["page_name", "views"]
+          }
+        }
+      },
+      "responses": {
+        "analyticsApi": {
+            "oneOf": [
+                { "$ref": "#/components/schemas/ViewsByCityAndPage" }
+            ,
+                { "$ref": "#/components/schemas/ViewsPerPage" }
+              ]
+        }
+      }
+    },
+    "paths": {
+      "/analytics-api": {
+        "post": {
+          "tags": ["Analytics API"],
+          "description": "Fetches the GA-4 details of the project for custom dashboard",
+          "parameters": [
+            {
+              "name": "type",
+              "in": "query",
+              "description": "Type of the query",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "enum": ["per-page-views", "views-by-city-and-page", "views-by-day"]
+              }
+            },
+            {
+              "name": "apikey",
+              "in": "header",
+              "example":"API_KEY",
+              "description": "apikey for the request",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/responses/analyticsApi" }
+              , "example": [
+                { "page_name": "Hello from EsgEdu | EsgEdu", "views": "32" },
+                { "page_name": "Green Energy Campus | EsgEdu", "views": "13" },
+                { "page_name": "Evolution of GRIHA | EsgEdu", "views": "12" }
+              ]
+                  }
+                }
+              },
+            
+            "403": {
+              "description": "Forbidden Access"
+            }
+          }
+        }
+      },
+      "/git-api": { 
+        "post": {
+        "tags":["Git API"],
+
+            "description": "For interacting with git SIH-2023 repo",
+            "parameters": [
+                {
+                    "name":"type",
+                    "in":"query",
+                    "schema":{
+                        "type":"string",
+                        "enum":["create","update","delete"]
+                    },
+                    "required":false,
+                    "description":"Type of the query"
+                }
+                ,
+                {
+                  "name": "apikey",
+                  "in": "header",
+                  "example":"API_KEY",
+                  "description": "apikey for the request",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                } 
+                ,
+                {
+                    "name":"path",
+                    "in":"query",
+                    "schema":{
+                        "type":"string"
+                        
+                    },
+                    "required":false,
+                    "description":"Path of the file along with directories"
+                }, {
+                    "name":"sha",
+                    "in":"query",
+                    "schema":{
+                        "type":"string"
+                    },
+                    "required":false,
+                    "description":"SHA of the file, required in case of update and delete"
+                }, {
+                    "name":"get_content",
+                    "in":"query",
+                    "schema":{
+                        "type":"string"
+                    },
+                    "required":false,
+                    "description":"Provide the path of the file, you are fetching content for"
+                },
+                {
+                    "name":"list",
+                    "in":"query",
+                    "schema":{
+                        "type":"string",
+                        "enum":["environment","governance","social"]
+                    },
+                    "required":false,
+                    "description":"Provides list of files, you are fetching for directory. Directory must be provided"
+                }
+
+            ],
+            "responses": {
+                "200": {
+                    "description": "Success"
+                },
+                "500": {
+                    "description": "Internal Server Error, Server tackled some issue, May be implementation issue else something from backend"
+                }
+            }
+        }
+      }
+
+  }}
+  

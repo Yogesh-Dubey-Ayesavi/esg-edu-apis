@@ -1,0 +1,25 @@
+{
+    "dimensions":[
+       {
+          "name":"pageTitle"
+       }
+    ],
+    "metrics":[
+       {
+          "name":"activeUsers"
+       }
+    ],
+    "dateRanges":[
+       {
+          "startDate":"30daysAgo",
+          "endDate":"today"
+       }
+    ],
+    "orderBys":[
+       {
+          "metric":{
+             "metricName":"activeUsers"
+          }
+       }
+    ]
+ }
